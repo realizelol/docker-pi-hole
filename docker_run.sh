@@ -20,7 +20,7 @@ docker run -d \
     -e VIRTUAL_HOST="pi.hole" \
     -e PROXY_LOCATION="pi.hole" \
     -e ServerIP="127.0.0.1" \
-    pihole/pihole:latest
+    realizelol/docker-pihole-unbound-arm64:latest
 
 printf 'Starting up pihole container '
 for i in $(seq 1 20); do

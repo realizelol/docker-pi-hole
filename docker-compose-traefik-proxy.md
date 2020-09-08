@@ -48,7 +48,7 @@ services:
     container_name: pihole
     domainname: homedomain.lan
 
-    image: pihole/pihole:latest
+    image: realizelol/docker-pihole-unbound-arm64:latest
     networks:
       - discovery
     ports:
