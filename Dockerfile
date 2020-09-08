@@ -1,4 +1,4 @@
-ARG PIHOLE_BASE
+ARG  PIHOLE_BASE
 FROM $PIHOLE_BASE
 
 ARG PIHOLE_ARCH
@@ -9,22 +9,25 @@ ENV S6OVERLAY_RELEASE "https://github.com/just-containers/s6-overlay/releases/do
 
 COPY install.sh /usr/local/bin/install.sh
 COPY VERSION /etc/docker-pi-hole-version
-ENV PIHOLE_INSTALL /root/ph_install.sh
-
-RUN bash -ex install.sh 2>&1 && \
-    rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
+ENV  PIHOLE_INSTALL /root/ph_install.sh
 
 # unbound start #
 RUN \
 	apt-get update && \
-	apt-get install unbound -y && \
-	rm -rf /var/lib/apt/lists/* && \
+	apt-get install apt-utils unbound -y && \
 	wget -O /var/lib/unbound/root.hints https://www.internic.net/domain/named.root && \
-	cp /usr/share/dns/root.key /var/lib/unbound/
+	cp /usr/share/dns/root.key /var/lib/unbound/ && \
+	mkdir -p /etc/services.d/unbound && \
+	mkdir -p /etc/unbound/unbound.conf.d && \
+	mkdir -p /var/log/unbound && \
+	touch /var/log/unbound/unbound.log
 
 ADD	unbound_service/* /etc/services.d/unbound/
-COPY unbound_default_config/* /etc/unbound/unbound.conf.d/
+COPY    unbound_default_config/* /etc/unbound/unbound.conf.d/
 # unbound end #
+
+RUN bash -ex install.sh 2>&1 && \
+    rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 
 ENTRYPOINT [ "/s6-init" ]
 
