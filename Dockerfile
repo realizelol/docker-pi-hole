@@ -14,8 +14,8 @@ ENV  PIHOLE_INSTALL /root/ph_install.sh
 # unbound start #
 RUN \
 	apt-get update && \
-	apt-get install apt-utils unbound -y && \
-	wget -O /var/lib/unbound/root.hints https://www.internic.net/domain/named.root && \
+	apt-get install apt-utils unbound wget curl -y && \
+	wget -q -O /var/lib/unbound/root.hints https://www.internic.net/domain/named.root && \
 	cp /usr/share/dns/root.key /var/lib/unbound/ && \
 	mkdir -p /etc/services.d/unbound && \
 	mkdir -p /etc/unbound/unbound.conf.d && \
