@@ -6,6 +6,11 @@ set -a
 # @environment ${DOCKER_HUB_REPO}         The docker hub repo to tag images for. Defaults to 'pihole'.
 # @environment ${DOCKER_HUB_IMAGE_NAME}   The name of the resulting image. Defaults to 'pihole'.
 
+ARCH=${ARCH}
+DEBIAN_VERSION=${DEBIAN_VERSION} 
+DOCKER_HUB_REPO=realizelol
+DOCKER_HUB_IMAGE_NAME=docker-pihole-unbound-arm64
+
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD | sed "s/\//-/g")
 GIT_TAG=$(git describe --tags --exact-match 2> /dev/null || true)
 

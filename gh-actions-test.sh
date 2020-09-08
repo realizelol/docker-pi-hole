@@ -7,6 +7,10 @@ set -ex
 # @environment ${DEBIAN_VERSION}    Debian version to build. ('buster' or 'stretch').
 # @environment ${ARCH_IMAGE}        What the Docker Hub Image should be tagged as. Example: pihole/pihole:master-amd64-stretch
 
+ARCH=${ARCH}
+DEBIAN_VERSION=${DEBIAN_VERSION}
+ARCH_IMAGE=${ARCH_IMAGE}
+
 # setup qemu/variables
 docker run --rm --privileged multiarch/qemu-user-static:register --reset > /dev/null
 . gh-actions-vars.sh
