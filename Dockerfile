@@ -14,6 +14,18 @@ ENV PIHOLE_INSTALL /root/ph_install.sh
 RUN bash -ex install.sh 2>&1 && \
     rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 
+# unbound start #
+RUN \
+	apt-get update && \
+	apt-get install unbound -y && \
+	rm -rf /var/lib/apt/lists/* && \
+	wget -O /var/lib/unbound/root.hints https://www.internic.net/domain/named.root && \
+	cp /usr/share/dns/root.key /var/lib/unbound/
+
+ADD	unbound_service/* /etc/services.d/unbound/
+COPY unbound_default_config/* /etc/unbound/unbound.conf.d/
+# unbound end #
+
 ENTRYPOINT [ "/s6-init" ]
 
 ADD s6/debian-root /
